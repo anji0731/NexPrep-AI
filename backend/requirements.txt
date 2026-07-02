@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9
+alembic
+passlib[bcrypt]
+pyjwt
+python-multipart
+ollama
+pydantic
+email-validator
+python-dotenv
+pypdf
+pymupdf
+faiss-cpu
+sentence-transformers
