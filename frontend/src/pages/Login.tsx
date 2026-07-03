@@ -14,7 +14,6 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
-  const [googleModalOpen, setGoogleModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
