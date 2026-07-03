@@ -341,11 +341,15 @@ const ResumeAnalyzer: React.FC = () => {
     setResult(null);
     setViewHistoryId(null);
 
-    // Verify file accessibility (handles virtual cloud files like Google Drive)
+    const formData = new FormData();
+
+    // Completely read the file into memory to ensure it's fully accessible (fixes Google Drive virtual file issues)
     if (file) {
       try {
-        await file.slice(0, 1024).arrayBuffer();
-        if (file.size === 0) throw new Error("Empty file");
+        const buffer = await file.arrayBuffer();
+        if (buffer.byteLength === 0) throw new Error("Empty file");
+        const safeFile = new File([buffer], file.name, { type: file.type });
+        formData.append('file', safeFile);
       } catch (e) {
         setError("Cloud file could not be read. Please download this file to your device first.");
         setLoading(false);
@@ -353,23 +357,19 @@ const ResumeAnalyzer: React.FC = () => {
       }
     }
 
-    if (jdFile && jdMode === 'file') {
+    if (jdMode === 'text') {
+      formData.append('job_description', jobDescription.trim());
+    } else if (jdFile) {
       try {
-        await jdFile.slice(0, 1024).arrayBuffer();
-        if (jdFile.size === 0) throw new Error("Empty file");
+        const buffer = await jdFile.arrayBuffer();
+        if (buffer.byteLength === 0) throw new Error("Empty file");
+        const safeJdFile = new File([buffer], jdFile.name, { type: jdFile.type });
+        formData.append('jd_file', safeJdFile);
       } catch (e) {
         setError("Job Description cloud file could not be read. Please download this file to your device first.");
         setLoading(false);
         return;
       }
-    }
-
-    const formData = new FormData();
-    if (file) formData.append('file', file);
-    if (jdMode === 'text') {
-      formData.append('job_description', jobDescription.trim());
-    } else if (jdFile) {
-      formData.append('jd_file', jdFile);
     }
 
     try {
