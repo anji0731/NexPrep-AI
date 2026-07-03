@@ -1,5 +1,6 @@
 import re
 import logging
+import gc
 from typing import Any, Optional
 from .resume_parser import ResumeParser
 from .embedding_service import EmbeddingService
@@ -40,6 +41,11 @@ class ResumeAnalyzer:
         logger.info("Cleaned character count: %s", len(cleaned_text))
         logger.debug("Sample extracted text: %s", cleaned_text[:300])
         
+        # Free raw text and pdf bytes early
+        del raw_text
+        del pdf_bytes
+        gc.collect()
+        
         if not cleaned_text:
             raise ValueError("Extracted resume text is empty or could not be parsed.")
 
@@ -64,6 +70,8 @@ class ResumeAnalyzer:
         resume_store = VectorStore()
         resume_store.add_texts(chunks, embeddings)
         logger.info("Added resume chunks to FAISS Vector Store.")
+        del chunks
+        del embeddings
         
         # Store JD chunks in JD vector store
         logger.info("Job description provided. Chunking and indexing JD...")
@@ -72,6 +80,8 @@ class ResumeAnalyzer:
         jd_store = VectorStore()
         jd_store.add_texts(jd_chunks, jd_embeddings)
         logger.info("Added %s JD chunks to Vector Store.", len(jd_chunks))
+        del jd_chunks
+        del jd_embeddings
 
         logger.info("STAGE 5: Top-K Vector Search & Context Retrieval")
         eval_prompts = [
@@ -128,6 +138,11 @@ class ResumeAnalyzer:
         logger.info("Total unique JD chunks retrieved: %s", len(unique_jd_chunks))
         for idx, chunk in enumerate(unique_jd_chunks):
             logger.debug("Retrieved JD chunk %s: %s", idx + 1, chunk)
+            
+        # Free vector stores immediately after retrieval
+        del resume_store
+        del jd_store
+        gc.collect()
             
         logger.info("STAGE 6: Deterministic ATS & Readiness Calculation")
         scores = ATSEngine.calculate_ats_score(cleaned_text, job_description)
@@ -395,5 +410,10 @@ class ResumeAnalyzer:
         # Persist RAG chunk sources for mock interview context retrieval
         analysis["retrieved_resume_chunks"] = unique_resume_chunks
         analysis["retrieved_jd_chunks"] = unique_jd_chunks
+        
+        # Final explicit GC
+        del context_text
+        del jd_context_text
+        gc.collect()
         
         return analysis

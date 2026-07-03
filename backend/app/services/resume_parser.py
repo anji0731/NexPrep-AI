@@ -1,4 +1,3 @@
-import fitz  # PyMuPDF
 import re
 
 class ResumeParser:
@@ -6,12 +5,13 @@ class ResumeParser:
     def extract_text(pdf_bytes: bytes) -> str:
         """Extracts text from PDF bytes using PyMuPDF."""
         try:
+            import fitz  # PyMuPDF
             # Open PDF from bytes memory
-            doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-            full_text = ""
-            for page in doc:
-                full_text += page.get_text() + "\n"
-            return full_text
+            with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+                full_text = ""
+                for page in doc:
+                    full_text += page.get_text() + "\n"
+                return full_text
         except Exception as e:
             raise ValueError(f"Failed to parse PDF document with PyMuPDF: {str(e)}")
 

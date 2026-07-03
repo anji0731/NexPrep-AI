@@ -1,4 +1,5 @@
 import logging
+from functools import lru_cache
 
 logger = logging.getLogger(__name__)
 
@@ -8,10 +9,17 @@ _model = None
 def get_model():
     global _model
     if _model is None:
-        logger.info("Initializing SentenceTransformer model 'all-MiniLM-L6-v2'...")
+        logger.info("Initializing SentenceTransformer model 'all-MiniLM-L6-v2' on CPU...")
         from sentence_transformers import SentenceTransformer
-        _model = SentenceTransformer('all-MiniLM-L6-v2')
+        _model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
     return _model
+
+@lru_cache(maxsize=128)
+def _cached_get_embedding(text: str) -> tuple[float, ...]:
+    """Caches generating an embedding vector for a single string. Returns tuple for hashability."""
+    model = get_model()
+    vec = model.encode(text)
+    return tuple(vec.tolist())
 
 class EmbeddingService:
     @staticmethod
@@ -27,6 +35,4 @@ class EmbeddingService:
     @staticmethod
     def get_embedding(text: str) -> list[float]:
         """Generates an embedding vector for a single string."""
-        model = get_model()
-        vec = model.encode(text)
-        return vec.tolist()
+        return list(_cached_get_embedding(text))
