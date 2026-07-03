@@ -17,3 +17,4 @@ faiss-cpu
 torch
 sentence-transformers
 google-auth
+requests==2.32.3
