@@ -1,5 +1,13 @@
-# NexPrep AI — Advanced Backend API
+---
+title: NexPrep AI Backend
+emoji: 🚀
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
 
+# NexPrep AI — Advanced Backend API
 Welcome to the backend engine of **NexPrep AI**, an intelligent, AI-powered interview preparation platform designed to help software engineers bridge the gap between their resumes and live interview performance. 
 
 This API acts as the core orchestration layer, processing resume PDFs, matching skills semantically, and streaming interactive AI interview evaluations.

@@ -52,8 +52,8 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
       <Navbar />
       
-      <div className="flex-1 flex items-center justify-center p-6 bg-dot-pattern py-[120px]">
-        <div className="bg-white p-8 md:p-10 rounded-[20px] border border-[#ECECEC] shadow-minimal max-w-md w-full space-y-6 text-left">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-dot-pattern py-[80px] sm:py-[120px]">
+        <div className="bg-white p-6 sm:p-8 md:p-10 rounded-[20px] border border-[#ECECEC] shadow-minimal max-w-md w-full space-y-6 text-left">
           
           {/* Funny Anime Mascot */}
           <LoginMascot isPasswordFocused={passwordFocused} />
@@ -142,7 +142,6 @@ const Login: React.FC = () => {
               size="large"
               shape="rectangular"
               text="signin_with"
-              width="360"
             />
           </div>
 
