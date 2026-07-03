@@ -575,6 +575,7 @@ const ResumeAnalyzer: React.FC = () => {
                       <div className="space-y-1">
                         <span className="text-body-custom font-bold text-slate-700 block">Drag & drop your resume here, or <span className="text-blue-600 hover:underline">browse</span></span>
                         <span className="text-small-label text-slate-400 font-semibold block">Only PDF files are supported (Max 10MB)</span>
+                        <span className="text-[10px] text-amber-600 font-semibold block mt-2">⚠️ Please upload files from your local device storage only. Cloud files are not supported.</span>
                       </div>
                     )}
                   </div>
@@ -653,6 +654,7 @@ const ResumeAnalyzer: React.FC = () => {
                         <div className="space-y-1">
                           <span className="text-body-custom font-bold text-slate-700 block">Drag & drop JD PDF here, or <span className="text-blue-600 hover:underline">browse</span></span>
                           <span className="text-small-label text-slate-400 font-semibold block">Only PDF files are supported</span>
+                          <span className="text-[10px] text-amber-600 font-semibold block mt-2">⚠️ Please upload files from your local device storage only. Cloud files are not supported.</span>
                         </div>
                       )}
                     </div>
