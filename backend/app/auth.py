@@ -10,7 +10,7 @@ from .config import settings
 from .database import get_db
 from .models import User
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/swagger-token")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     try:

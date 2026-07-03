@@ -1,5 +1,6 @@
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -72,6 +73,23 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
             "username": user.username,
             "email": user.email,
         }
+    }
+
+@router.post("/swagger-token", response_model=dict, include_in_schema=False)
+def login_for_swagger(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    """Dedicated endpoint for Swagger UI's Authorize button which uses form-data instead of JSON."""
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    access_token = create_access_token(data={"sub": user.email})
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
     }
 
 @router.get("/me", response_model=UserResponse)
