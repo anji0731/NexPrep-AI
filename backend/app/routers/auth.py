@@ -103,7 +103,7 @@ def google_login(login_data: GoogleLoginRequest, db: Session = Depends(get_db)):
             raise ValueError("Google Client ID is not configured on the server")
             
         idinfo = id_token.verify_oauth2_token(
-            login_data.token, requests.Request(), settings.GOOGLE_CLIENT_ID
+            login_data.token, requests.Request(), settings.GOOGLE_CLIENT_ID, clock_skew_in_seconds=60
         )
         
         email = idinfo.get("email")

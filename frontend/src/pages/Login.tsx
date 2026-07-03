@@ -42,7 +42,7 @@ const Login: React.FC = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError('Google login failed.');
+      console.error('Google login failed:', err);
     } finally {
       setGoogleLoading(false);
     }
