@@ -13,6 +13,7 @@ class Settings:
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     OLLAMA_API_KEY: str = os.getenv("OLLAMA_API_KEY", "")
     OLLAMA_HOST: str = os.getenv("OLLAMA_HOST", "")
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
     raw_origins: str = os.getenv("ALLOWED_ORIGINS", "")
     ALLOWED_ORIGINS: list[str] = [x.strip() for x in raw_origins.split(",") if x.strip()]
     raw_db_url: str = os.getenv("DATABASE_URL", "").strip()

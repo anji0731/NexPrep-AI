@@ -4,13 +4,16 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models import User
-from ..schemas import UserCreate, UserLogin, UserResponse, Token
+from ..schemas import UserCreate, UserLogin, UserResponse, Token, GoogleLoginRequest
 from ..auth import (
     get_password_hash,
     verify_password,
     create_access_token,
     get_current_user,
 )
+from google.oauth2 import id_token
+from google.auth.transport import requests
+from ..config import settings
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -74,3 +77,51 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.post("/google", response_model=dict)
+def google_login(login_data: GoogleLoginRequest, db: Session = Depends(get_db)):
+    try:
+        if not settings.GOOGLE_CLIENT_ID:
+            raise ValueError("Google Client ID is not configured on the server")
+            
+        idinfo = id_token.verify_oauth2_token(
+            login_data.token, requests.Request(), settings.GOOGLE_CLIENT_ID
+        )
+        
+        email = idinfo.get("email")
+        name = idinfo.get("name", "Google User")
+        
+        if not email:
+            raise HTTPException(status_code=400, detail="Google token did not contain an email")
+            
+        user = db.query(User).filter(User.email == email).first()
+        if not user:
+            import secrets
+            random_password = secrets.token_urlsafe(32)
+            hashed_password = get_password_hash(random_password)
+            
+            user = User(
+                username=name,
+                email=email,
+                hashed_password=hashed_password,
+            )
+            db.add(user)
+            db.commit()
+            db.refresh(user)
+            
+        access_token = create_access_token(data={"sub": user.email})
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            }
+        }
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid Google token: {str(e)}",
+            headers={"WWW-Authenticate": "Bearer"},
+        )

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
@@ -52,85 +53,87 @@ const PublicOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Landing */}
-          <Route path="/" element={<LandingPage />} />
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            {/* Public Landing */}
+            <Route path="/" element={<LandingPage />} />
 
-          {/* Auth Routes */}
-          <Route
-            path="/login"
-            element={
-              <PublicOnlyRoute>
-                <Login />
-              </PublicOnlyRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicOnlyRoute>
-                <Register />
-              </PublicOnlyRoute>
-            }
-          />
+            {/* Auth Routes */}
+            <Route
+              path="/login"
+              element={
+                <PublicOnlyRoute>
+                  <Login />
+                </PublicOnlyRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicOnlyRoute>
+                  <Register />
+                </PublicOnlyRoute>
+              }
+            />
 
-          {/* Protected Dashboard & Prep Modules */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/resume"
-            element={
-              <ProtectedRoute>
-                <ResumeAnalyzer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/resume-interview/:sessionId"
-            element={
-              <ProtectedRoute>
-                <ResumeInterview />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/technical"
-            element={
-              <ProtectedRoute>
-                <TechnicalInterview />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/hr"
-            element={
-              <ProtectedRoute>
-                <HRInterview />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/history"
-            element={
-              <ProtectedRoute>
-                <InterviewHistory />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Dashboard & Prep Modules */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/resume"
+              element={
+                <ProtectedRoute>
+                  <ResumeAnalyzer />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/resume-interview/:sessionId"
+              element={
+                <ProtectedRoute>
+                  <ResumeInterview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/technical"
+              element={
+                <ProtectedRoute>
+                  <TechnicalInterview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/hr"
+              element={
+                <ProtectedRoute>
+                  <HRInterview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <ProtectedRoute>
+                  <InterviewHistory />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Fallback Catch-all Route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            {/* Fallback Catch-all Route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

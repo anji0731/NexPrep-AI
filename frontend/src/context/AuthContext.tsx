@@ -12,7 +12,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string, confirmPassword: string) => Promise<void>;
-  mockGoogleLogin: (username?: string, email?: string) => Promise<void>;
+  googleLogin: (token: string) => Promise<void>;
   logout: () => void;
   error: string | null;
   setError: (err: string | null) => void;
@@ -78,22 +78,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const mockGoogleLogin = async (username?: string, email?: string) => {
+  const googleLogin = async (token: string) => {
     setError(null);
     setLoading(true);
-    // Simulate API delay for a premium user experience
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    
-    // Simulate standard user and store mock token
-    const mockUser: User = {
-      id: 999,
-      username: username || 'Google Candidate',
-      email: email || 'candidate@gmail.com'
-    };
-    
-    localStorage.setItem('token', 'mock_google_jwt_token_v1');
-    setUser(mockUser);
-    setLoading(false);
+    try {
+      const res = await api.post('/api/auth/google', { token });
+      const { access_token, user: loggedUser } = res.data;
+      localStorage.setItem('token', access_token);
+      setUser(loggedUser);
+    } catch (err: any) {
+      const errMsg = err.response?.data?.detail || 'Google login failed';
+      setError(errMsg);
+      throw new Error(errMsg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
@@ -102,7 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, mockGoogleLogin, logout, error, setError }}>
+    <AuthContext.Provider value={{ user, loading, login, register, googleLogin, logout, error, setError }}>
       {children}
     </AuthContext.Provider>
   );
