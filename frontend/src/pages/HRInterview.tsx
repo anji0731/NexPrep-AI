@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import api from '../services/api';
 import { Users, ArrowLeft, ArrowRight, Loader2, CheckCircle2, AlertTriangle, AlertCircle, Compass, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const HR_TOPICS = [
   "Tell me about yourself",
@@ -121,6 +122,7 @@ const HRInterview: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO title="HR Interview Practice | NexPrep AI" description="Practice behavioral and HR interview questions." noindex={true} />
       <Navbar />
       
       <main className="flex-1 max-w-7xl w-full mx-auto px-8 py-6">
@@ -132,7 +134,7 @@ const HRInterview: React.FC = () => {
             Back to Dashboard
           </Link>
           {topic && (
-            <button
+            <button aria-label="Action button"
               onClick={handleReset}
               className="text-small-label font-bold text-blue-600 hover:underline"
             >
@@ -168,7 +170,7 @@ const HRInterview: React.FC = () => {
               <h2 className="text-card-title font-bold text-slate-900 pb-3 border-b border-[#ECECEC]">Choose a behavioral prompt</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {HR_TOPICS.map((t) => (
-                  <button
+                  <button aria-label="Action button"
                     key={t}
                     type="button"
                     onClick={() => setShowConfigModal(t)}
@@ -198,7 +200,7 @@ const HRInterview: React.FC = () => {
                   {/* Range Options */}
                   <div className="grid grid-cols-3 gap-3">
                     {[2, 5, 10].map((num) => (
-                      <button
+                      <button aria-label="Action button"
                         key={num}
                         type="button"
                         onClick={() => setSelectedCount(num)}
@@ -214,14 +216,14 @@ const HRInterview: React.FC = () => {
                   </div>
 
                   <div className="flex gap-4 pt-2">
-                    <button
+                    <button aria-label="Action button"
                       type="button"
                       onClick={() => setShowConfigModal(null)}
                       className="flex-1 btn-glass py-3.5 text-xs font-bold text-slate-700 rounded-xl"
                     >
                       Cancel
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       type="button"
                       onClick={() => startInterview(showConfigModal, selectedCount)}
                       className="flex-1 btn-primary py-3.5 text-xs font-bold rounded-xl"
@@ -265,7 +267,7 @@ const HRInterview: React.FC = () => {
               </p>
             </div>
 
-            <form onSubmit={submitAnswer} className="space-y-6">
+            <form aria-label="Form" onSubmit={submitAnswer} className="space-y-6">
               <div className="space-y-3">
                 <label className="block text-small-label font-bold text-slate-400 uppercase tracking-wider">
                   Your Response
@@ -286,7 +288,7 @@ const HRInterview: React.FC = () => {
 
               <div className="flex justify-between items-center pt-4 border-t border-slate-100">
                 {currentQuestionIndex > 0 ? (
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => {
                       const updated = { ...answersMap, [currentQuestionIndex]: answer };
@@ -305,7 +307,7 @@ const HRInterview: React.FC = () => {
                   <div></div>
                 )}
 
-                <button
+                <button aria-label="Action button"
                   type="submit"
                   disabled={submittingAnswer || answer.trim().length < 5}
                   className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all"
@@ -518,7 +520,7 @@ const HRInterview: React.FC = () => {
 
             {/* Back to Arena Button */}
             <div className="flex justify-center pt-6">
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={handleReset}
                 className="btn-primary flex items-center gap-1.5 px-8 py-4 text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all hover:scale-[1.02]"

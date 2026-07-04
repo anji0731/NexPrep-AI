@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import LoginMascot from '../components/LoginMascot';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/SEO';
 
 const Login: React.FC = () => {
   const { login, googleLogin, error, setError } = useAuth();
@@ -50,6 +51,17 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO 
+        title="Sign In | NexPrep AI" 
+        description="Sign in to your NexPrep AI account to continue your interview preparation." 
+        canonical="https://nex-prep-ai.vercel.app/login"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Sign In - NexPrep AI",
+          "url": "https://nex-prep-ai.vercel.app/login"
+        }}
+      />
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-dot-pattern py-[80px] sm:py-[120px]">
@@ -70,7 +82,7 @@ const Login: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form aria-label="Form" onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-[10px] font-bold text-slate-450 uppercase tracking-wider">
                 Email Address
@@ -113,7 +125,7 @@ const Login: React.FC = () => {
               </div>
             </div>
 
-            <button
+            <button aria-label="Action button"
               type="submit"
               disabled={loading || googleLoading}
               className="w-full btn-primary flex items-center justify-center gap-2 px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl"

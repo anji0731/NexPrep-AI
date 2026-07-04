@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import FriendlyErrorCard from '../components/FriendlyErrorCard';
@@ -426,6 +427,7 @@ const ResumeAnalyzer: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO title="Resume Analyzer | NexPrep AI" description="Analyze your resume against job descriptions." noindex={true} />
       <Navbar />
 
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 sm:px-8 pt-6 pb-16">
@@ -446,7 +448,7 @@ const ResumeAnalyzer: React.FC = () => {
               Back to Dashboard
             </Link>
             {result && (
-              <button
+              <button aria-label="Action button"
                 onClick={() => { setResult(null); setViewHistoryId(null); setFile(null); }}
                 className="text-small-label font-bold text-blue-600 hover:underline"
               >
@@ -540,7 +542,7 @@ const ResumeAnalyzer: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
               {/* Form Column */}
-              <form onSubmit={handleSubmit} className="lg:col-span-8 bg-white p-8 sm:p-10 rounded-[20px] border border-[#ECECEC] shadow-minimal space-y-8 text-left">
+              <form aria-label="Form" onSubmit={handleSubmit} className="lg:col-span-8 bg-white p-8 sm:p-10 rounded-[20px] border border-[#ECECEC] shadow-minimal space-y-8 text-left">
                 <h2 className="text-card-title font-bold text-slate-900 border-b border-[#ECECEC] pb-4">Analyze New Profile</h2>
 
                 {/* Drag-and-drop Upload Area */}
@@ -588,7 +590,7 @@ const ResumeAnalyzer: React.FC = () => {
                       Target Job Description <span className="text-red-500">*</span>
                     </label>
                     <div className="flex gap-2 bg-slate-50 border border-slate-200/60 p-1 rounded-lg">
-                      <button
+                      <button aria-label="Action button"
                         type="button"
                         onClick={() => setJdMode('text')}
                         className={`px-3 py-1 text-[10px] font-bold uppercase rounded-md transition-all ${jdMode === 'text' ? 'bg-white text-slate-800 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-800'
@@ -596,7 +598,7 @@ const ResumeAnalyzer: React.FC = () => {
                       >
                         Paste Text
                       </button>
-                      <button
+                      <button aria-label="Action button"
                         type="button"
                         onClick={() => setJdMode('file')}
                         className={`px-3 py-1 text-[10px] font-bold uppercase rounded-md transition-all ${jdMode === 'file' ? 'bg-white text-slate-800 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-800'
@@ -662,7 +664,7 @@ const ResumeAnalyzer: React.FC = () => {
                 </div>
 
                 <div className="flex justify-end pt-4">
-                  <button
+                  <button aria-label="Action button"
                     type="submit"
                     disabled={!file || (jdMode === 'text' ? !jobDescription.trim() : !jdFile)}
                     className="btn-primary px-8 py-4 text-xs font-bold uppercase tracking-wider shadow-sm rounded-xl disabled:opacity-50 disabled:pointer-events-none"
@@ -680,7 +682,7 @@ const ResumeAnalyzer: React.FC = () => {
                   {history.length > 0 ? (
                     <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
                       {history.map((item) => (
-                        <button
+                        <button aria-label="Action button"
                           key={item.id}
                           onClick={() => loadHistoricAnalysis(item.id)}
                           className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${viewHistoryId === item.id
@@ -829,7 +831,7 @@ const ResumeAnalyzer: React.FC = () => {
                     </p>
                   </div>
 
-                  <button
+                  <button aria-label="Action button"
                     onClick={async () => {
                       setLoading(true);
                       setFriendlyError(null);
@@ -1367,7 +1369,7 @@ const ResumeAnalyzer: React.FC = () => {
                       const isExpanded = expandedCareerPath === idx;
                       return (
                         <div key={idx} className="border border-[#ECECEC] rounded-[16px] overflow-hidden bg-slate-50/10">
-                          <button
+                          <button aria-label="Action button"
                             type="button"
                             onClick={() => setExpandedCareerPath(isExpanded ? null : idx)}
                             className="w-full flex flex-col sm:flex-row sm:items-center justify-between p-6 text-left hover:bg-slate-50/40 transition-colors gap-4"
@@ -1693,7 +1695,7 @@ const ResumeAnalyzer: React.FC = () => {
                       const isExpanded = expandedRoadmap[roadmap.phase];
                       return (
                         <div key={idx} className="border border-[#ECECEC] rounded-[16px] overflow-hidden bg-slate-50/10">
-                          <button
+                          <button aria-label="Action button"
                             type="button"
                             onClick={() => toggleRoadmap(roadmap.phase)}
                             className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50/40 transition-colors font-bold text-slate-800 text-small-label"

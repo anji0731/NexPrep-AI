@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import FriendlyErrorCard from '../components/FriendlyErrorCard';
@@ -349,6 +350,7 @@ const ResumeInterview: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO title="Mock Interview | NexPrep AI" description="Practice an AI mock interview tailored to your resume." noindex={true} />
       <Navbar />
 
       {friendlyError && (
@@ -473,7 +475,7 @@ const ResumeInterview: React.FC = () => {
 
             {/* Footer Navigation */}
             <div className="flex flex-col gap-3 xl:flex-row items-start xl:items-center justify-between border-t border-slate-100 pt-6">
-              <button
+              <button aria-label="Action button"
                 onClick={handlePrev}
                 disabled={currentIdx === 0 || evaluating}
                 className="btn-glass flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-slate-655 rounded-xl shadow-sm"
@@ -488,7 +490,7 @@ const ResumeInterview: React.FC = () => {
                   <span className="font-bold text-slate-800">{timeLeft > 0 ? formatTime(timeLeft) : '00:00'}</span>
                 </div>
                 {currentIdx + 1 < totalQuestions ? (
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => handleNext(false)}
                     disabled={evaluating || !currentAnswer.trim()}
                     className="btn-primary flex items-center gap-2 px-6 py-2.5 text-xs font-bold"
@@ -506,7 +508,7 @@ const ResumeInterview: React.FC = () => {
                     )}
                   </button>
                 ) : (
-                  <button
+                  <button aria-label="Action button"
                     onClick={handleSubmit}
                     disabled={evaluating || !currentAnswer.trim()}
                     className="btn-primary flex items-center gap-2 px-6 py-2.5 text-xs font-bold"
@@ -530,7 +532,7 @@ const ResumeInterview: React.FC = () => {
               <ArrowLeft size={16} />
               Back to Resume Intelligence
             </Link>
-            <button
+            <button aria-label="Action button"
               onClick={() => window.print()}
               className="btn-glass px-5 py-2.5 text-xs font-bold text-slate-800 rounded-xl"
             >

@@ -4,6 +4,7 @@ import { FileText, Code, Users, History, ChevronDown, Star, Sparkles } from 'luc
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import SEO from '../components/SEO';
 
 const FAQ_ITEMS = [
   {
@@ -119,10 +120,49 @@ const LandingPage: React.FC = () => {
     }
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQ_ITEMS.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NexPrep AI",
+    "url": "https://nex-prep-ai.vercel.app/"
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "NexPrep AI Career Assistant",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF9F6] selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO 
+        title="NexPrep AI | AI Resume Analyzer & Mock Interview Preparation"
+        description="Your ultimate AI Career Assistant. Get an ATS Resume Checker, Technical Interview Practice, and HR Interview Practice. Transform your resume feedback into job offers."
+        canonical="https://nex-prep-ai.vercel.app/"
+        schema={[websiteSchema, softwareSchema, faqSchema]}
+      />
       <Navbar />
       
+      <main>
       {/* Hero Section */}
       <motion.section 
         initial="hidden"
@@ -150,7 +190,7 @@ const LandingPage: React.FC = () => {
               variants={childVariants}
               className="text-hero-title text-slate-900 leading-[1.1] tracking-tight"
             >
-              Your <span className="text-blue-600">Next Interview</span> Starts Here
+              Your <span className="text-blue-600">AI Career Assistant</span> Starts Here
             </motion.h1>
 
             {/* Supporting Text */}
@@ -158,7 +198,7 @@ const LandingPage: React.FC = () => {
               variants={childVariants}
               className="text-body-custom text-slate-500 max-w-xl leading-relaxed"
             >
-              Upload your resume, receive intelligent ATS insights, practice AI-powered mock interviews tailored to your profile, and get personalized feedback that helps you become interview-ready faster.
+              Master your career preparation with an advanced AI Resume Analyzer and ATS Resume Checker. Get personalized resume feedback and ace your next role with realistic Technical Interview Practice and HR Interview Practice.
             </motion.p>
 
             {/* Primary & Secondary Buttons */}
@@ -319,10 +359,10 @@ const LandingPage: React.FC = () => {
           <motion.div variants={childVariants} className="text-center max-w-3xl mx-auto mb-24">
             <span className="text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">Suite Modules</span>
             <h2 className="text-section-title font-bold text-slate-900 tracking-tight mt-6">
-              Everything you need to master your interview prep
+              Everything you need for comprehensive interview preparation
             </h2>
             <p className="mt-4 text-body-custom text-slate-500">
-              We focus on building core AI intelligence modules that help software engineers optimize their resumes and master mock interviews.
+              We focus on building core AI intelligence modules that offer resume review and authentic mock interview AI scenarios.
             </p>
           </motion.div>
 
@@ -545,7 +585,7 @@ const LandingPage: React.FC = () => {
                   variants={cardVariants}
                   className="border border-[#ECECEC] rounded-[20px] overflow-hidden bg-slate-50/20"
                 >
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => setActiveFaq(active ? null : index)}
                     className="w-full flex items-center justify-between p-6 text-left font-bold text-slate-800 text-xs hover:bg-slate-50/50 transition-colors"
                   >
@@ -572,6 +612,7 @@ const LandingPage: React.FC = () => {
           </motion.div>
         </div>
       </motion.section>
+      </main>
 
       <Footer />
     </div>

@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { Mail, Lock, User, Loader2, AlertCircle } from 'lucide-react';
 import LoginMascot from '../components/LoginMascot';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/SEO';
 
 const Register: React.FC = () => {
   const { register, googleLogin, error, setError } = useAuth();
@@ -57,6 +58,17 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO 
+        title="Create Account | NexPrep AI" 
+        description="Create your NexPrep AI account and start preparing for your interviews with AI-powered tools." 
+        canonical="https://nex-prep-ai.vercel.app/register"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Create Account - NexPrep AI",
+          "url": "https://nex-prep-ai.vercel.app/register"
+        }}
+      />
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-dot-pattern py-[80px] sm:py-[120px]">
@@ -77,7 +89,7 @@ const Register: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form aria-label="Form" onSubmit={handleSubmit} className="space-y-6">
             
             {/* Username */}
             <div className="space-y-2">
@@ -167,7 +179,7 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            <button
+            <button aria-label="Action button"
               type="submit"
               disabled={loading || googleLoading}
               className="w-full btn-primary flex items-center justify-center gap-2 px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl"

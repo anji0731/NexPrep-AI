@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
                     {user.username}
                   </span>
                 </div>
-                <button
+                <button aria-label="Action button"
                   onClick={handleLogout}
                   className="btn-glass h-10 px-4 flex items-center gap-1.5 text-[15px] font-semibold text-slate-700 rounded-xl shadow-sm"
                 >
@@ -117,7 +117,7 @@ const Navbar: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
-            <button
+            <button aria-label="Action button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
             >
@@ -161,7 +161,7 @@ const Navbar: React.FC = () => {
                       </Link>
                     );
                   })}
-                  <button
+                  <button aria-label="Action button"
                     onClick={handleLogout}
                     className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-red-655 hover:bg-red-50/30 transition-colors mt-2"
                   >

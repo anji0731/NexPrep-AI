@@ -35,7 +35,7 @@ const GoogleAccountsModal: React.FC<GoogleAccountsModalProps> = ({ isOpen, onClo
             className="relative bg-white w-full max-w-sm rounded-[24px] border border-slate-200 shadow-2xl p-6 overflow-hidden text-left"
           >
             {/* Close Button */}
-            <button 
+            <button aria-label="Action button" 
               onClick={onClose} 
               className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-colors"
             >
@@ -60,7 +60,7 @@ const GoogleAccountsModal: React.FC<GoogleAccountsModalProps> = ({ isOpen, onClo
             {/* Google Accounts list */}
             <div className="mt-6 border border-slate-100 rounded-2xl overflow-hidden divide-y divide-slate-100">
               {ACCOUNTS_LIST.map((acc, index) => (
-                <button
+                <button aria-label="Action button"
                   key={index}
                   onClick={() => onSelectAccount(acc)}
                   className="w-full flex items-center gap-3.5 p-4 text-left hover:bg-slate-50/70 transition-colors"
@@ -76,7 +76,7 @@ const GoogleAccountsModal: React.FC<GoogleAccountsModalProps> = ({ isOpen, onClo
               ))}
               
               {/* Fake 'Use another account' option */}
-              <button
+              <button aria-label="Action button"
                 onClick={() => onSelectAccount(ACCOUNTS_LIST[1])} // Default to guest or first for mock demo
                 className="w-full flex items-center gap-3.5 p-4 text-left hover:bg-slate-50/70 transition-colors"
               >

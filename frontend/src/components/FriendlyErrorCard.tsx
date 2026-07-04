@@ -22,7 +22,7 @@ const FriendlyErrorCard: React.FC<FriendlyErrorCardProps> = ({ error, onAction }
       </div>
       <h3 className="text-xl font-semibold text-slate-900 mb-2">{error.title}</h3>
       <p className="text-sm text-slate-500 leading-relaxed max-w-md mx-auto mb-6">{error.message}</p>
-      <button
+      <button aria-label="Action button"
         type="button"
         onClick={onAction}
         className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"

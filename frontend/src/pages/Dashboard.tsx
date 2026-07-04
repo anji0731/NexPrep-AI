@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../services/api';
+import SEO from '../components/SEO';
 import { 
   FileText, Code, Users, CheckCircle2, AlertCircle, Sparkles, 
   ArrowUpRight, Lock, ChevronRight, Activity, Calendar
@@ -111,6 +112,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans selection:bg-blue-600/10 selection:text-blue-600">
+      <SEO title="Dashboard | NexPrep AI" description="Your NexPrep AI interview preparation dashboard." noindex={true} />
       <Navbar />
       
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 sm:px-8 py-[72px] space-y-10">
