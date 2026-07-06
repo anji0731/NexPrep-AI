@@ -1,11 +1,6 @@
 User-agent: *
 Allow: /
 
-Disallow: /dashboard
-Disallow: /resume
-Disallow: /resume-interview
-Disallow: /technical
-Disallow: /hr
-Disallow: /history
+
 
 Sitemap: https://nex-prep-ai.vercel.app/sitemap.xml
